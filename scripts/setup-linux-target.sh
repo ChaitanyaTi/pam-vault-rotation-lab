@@ -39,3 +39,4 @@ echo "IP Address: $(hostname -I | awk '{print $1}')"
 echo "Hostname:   $(hostname)"
 echo "Test SSH command from DC01 or VAULT01: ssh appadmin@$(hostname -I | awk '{print $1}')"
 echo "=========================================================="
+

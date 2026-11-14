@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Automated Credential Rotation for Windows Local Administrator Account on WIN-APP01.
 
@@ -91,3 +91,4 @@ try {
     Add-Content "rotation.log" "$((Get-Date -Format s)) FAIL LocalAdmin-$TargetHost $($_.Exception.Message)"
     exit 1
 }
+

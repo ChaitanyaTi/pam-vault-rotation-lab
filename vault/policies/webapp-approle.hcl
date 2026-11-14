@@ -7,3 +7,4 @@
 path "secret/data/service-accounts/svc_webapp" {
   capabilities = ["read"]
 }
+

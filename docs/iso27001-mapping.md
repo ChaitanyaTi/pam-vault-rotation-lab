@@ -25,3 +25,4 @@ This document provides a formal audit mapping between the Privileged Access Mana
 ### Question: "How do you detect unauthorized privilege escalation or stale access?"
 **Audit Defense**:
 > *"We execute automated compliance scans via `privileged-access-review.ps1`. The scanner interrogates Active Directory for users with `LastLogonDate` exceeding 90 days (which successfully caught our planted dormant admin `adm_old`), queries Vault metadata to identify secrets unrotated for over 30 days (flagging `svc_backup`), and correlates Windows Event IDs 4728 and 4724 to alert on out-of-band group additions or manual password resets."*
+

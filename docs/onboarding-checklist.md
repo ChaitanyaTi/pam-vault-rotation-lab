@@ -66,3 +66,4 @@ flowchart TD
    ```
 3. Execute dry-run rotation and check `rotation.log`.
 4. Register the entry in [`docs/account-register.csv`](file:///docs/account-register.csv).
+

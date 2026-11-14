@@ -75,3 +75,4 @@ Stage 4: Publish to active Vault safe & archive pending state
 | **Session Recording** | Single container JumpServer instance. | Redundant cluster of PSM / Teleport proxy nodes behind a Network Load Balancer with encrypted session recording storage in S3/Blob. |
 | **Service Dependency Mapping**| Standalone AD user. | Automated discovery scanning for dependent Windows Services, Scheduled Tasks, and IIS App Pools, with coordinated service restarts during rotation windows. |
 | **SIEM Integration** | Local log files (`rotation.log`). | Real-time syslog/Kafka streaming of audit logs into Splunk / Microsoft Sentinel with automated UEBA alerting. |
+

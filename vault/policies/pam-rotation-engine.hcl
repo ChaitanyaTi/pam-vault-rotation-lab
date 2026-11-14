@@ -11,3 +11,4 @@ path "secret/data/*" {
 path "secret/metadata/*" {
   capabilities = ["read", "list"]
 }
+

@@ -145,3 +145,4 @@ Write-Host " [Phase 1] AD Provisioning Complete! Summary:" -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
 Get-ADGroupMember -Identity "GG-PAM-Windows-Admins" | Select-Object Name, SamAccountName, DistinguishedName | Format-Table -AutoSize
 Get-ADUser -Filter * -SearchBase "OU=Service-Accounts,$DomainDN" | Select-Object SamAccountName, Enabled, PasswordNeverExpires | Format-Table -AutoSize
+

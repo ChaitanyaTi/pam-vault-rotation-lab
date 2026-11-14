@@ -2,3 +2,4 @@
 {"time":"2026-11-14T09:05:12.126789Z","type":"response","auth":{"client_token":"hmac-sha256:7b42f...bob","display_name":"userpass-bob","policies":["default"]},"request":{"id":"req-01a2b3c4","operation":"read","path":"secret/data/service-accounts/svc_webapp"},"error":"permission denied"}
 {"time":"2026-11-14T09:06:01.345678Z","type":"request","auth":{"client_token":"hmac-sha256:8c53a...alice","display_name":"userpass-alice","policies":["default","pam-operator"]},"request":{"id":"req-98f7e6d5","operation":"read","path":"secret/data/service-accounts/svc_webapp"}}
 {"time":"2026-11-14T09:06:01.348912Z","type":"response","auth":{"client_token":"hmac-sha256:8c53a...alice","display_name":"userpass-alice","policies":["default","pam-operator"]},"request":{"id":"req-98f7e6d5","operation":"read","path":"secret/data/service-accounts/svc_webapp"},"response":{"data":{"data":{"username":"svc_webapp","last_rotated":"2026-11-14T09:00:00Z"}}}}
+

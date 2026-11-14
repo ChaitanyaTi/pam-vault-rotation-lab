@@ -19,3 +19,4 @@ path "secret/data/*" {
 path "sys/audit" {
   capabilities = ["read"]
 }
+

@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Automated AWS IAM Access Key Rotation & Safe Vault Synchronization.
 
@@ -84,3 +84,4 @@ try {
     Add-Content "rotation.log" "$((Get-Date -Format s)) FAIL AWS-IAM-$UserName $($_.Exception.Message)"
     exit 1
 }
+

@@ -58,3 +58,4 @@ curl -s -X POST \
 echo "=========================================================="
 echo "[✓] Linux user $TARGET_USER password rotated and vaulted!"
 echo "=========================================================="
+

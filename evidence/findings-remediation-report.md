@@ -79,3 +79,4 @@ During the scheduled privileged access review executed via [`scripts/privileged-
 | :--- | :--- | :--- | :--- |
 | **Lead PAM Engineer** | Chaitanya | *Signed (Remediated)* | 2026-11-14 |
 | **Information Security Officer** | ISO Review Board | *Approved* | 2026-11-14 |
+

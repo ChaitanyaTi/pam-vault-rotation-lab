@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Schedules Automated PAM Credential Rotation in Windows Task Scheduler.
 
@@ -42,3 +42,4 @@ Register-ScheduledTask `
 
 Write-Host "[✓] Scheduled Task registered successfully! Details:" -ForegroundColor Green
 Get-ScheduledTask -TaskName $TaskName | Select-Object TaskName, State, Date | Format-Table -AutoSize
+

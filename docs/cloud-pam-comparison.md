@@ -50,3 +50,4 @@ In modern cloud PAM architectures:
      aws sts assume-role --role-arn "arn:aws:iam::123456789012:role/PAMBackupAdmin" --role-session-name "AliceSession"
      ```
    - All role assumptions and subsequent S3 API calls (`GetObject`, `ListBucket`) are immutably logged to **AWS CloudTrail Event History**.
+

@@ -394,3 +394,4 @@ pam-vault-rotation-lab/
         ├── webapp-approle.hcl                # Application AppRole policy
         └── aws-least-privilege-s3.json       # AWS IAM least-privilege JSON policy
 ```
+

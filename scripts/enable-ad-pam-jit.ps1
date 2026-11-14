@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Active Directory Just-In-Time (JIT) Privileged Access Automation (Phase 6).
 
@@ -83,3 +83,4 @@ Write-Host "    Raw AD TTL Attribute: $ttlEntry" -ForegroundColor Cyan
 Write-Host "`n==========================================================" -ForegroundColor Cyan
 Write-Host " [✓] JIT Access Grant Activated. Take Screenshot for Phase 6 Evidence!" -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
+

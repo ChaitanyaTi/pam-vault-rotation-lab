@@ -130,3 +130,4 @@ Execute the three mandatory lab test sessions:
 3. Take screenshots of:
    - Replay window showing command execution.
    - Command filter alert notification.
+

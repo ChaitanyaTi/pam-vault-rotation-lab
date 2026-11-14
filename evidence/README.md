@@ -26,3 +26,4 @@ $env:VAULT_TOKEN = "s.YourVaultToken"
 # 2. Run automated ISO 27001 compliance scanner:
 .\scripts\privileged-access-review.ps1 -Domain lab.local
 ```
+

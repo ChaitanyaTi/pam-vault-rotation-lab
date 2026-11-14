@@ -252,3 +252,4 @@ Write-Host "==========================================================" -Foregro
 Write-Host " [Phase 7] Audit Complete! Findings identified:" -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
 $Findings | Format-Table FindingId, Category, TargetAccount, RiskLevel, ISOControl -AutoSize
+

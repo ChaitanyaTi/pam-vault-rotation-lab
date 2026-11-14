@@ -34,3 +34,4 @@ path "auth/*" {
 path "sys/auth/*" {
   capabilities = ["create", "read", "update", "delete", "list", "sudo"]
 }
+

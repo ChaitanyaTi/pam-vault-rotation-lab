@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Automated Active Directory Service Account Credential Rotation (CyberArk CPM Equivalent).
 
@@ -220,3 +220,4 @@ try {
 
     exit 1
 }
+

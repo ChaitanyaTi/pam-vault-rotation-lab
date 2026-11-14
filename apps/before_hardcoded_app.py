@@ -42,3 +42,4 @@ if __name__ == "__main__":
     print(" [BEFORE] Legacy App with Hardcoded Privileged Secret ")
     print("=" * 60)
     run_application_workload()
+

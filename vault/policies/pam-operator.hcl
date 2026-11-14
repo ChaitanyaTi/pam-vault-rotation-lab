@@ -27,3 +27,4 @@ path "secret/data/linux-root/*" {
 path "secret/data/aws/*" {
   capabilities = ["deny"]
 }
+

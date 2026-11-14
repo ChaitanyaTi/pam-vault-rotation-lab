@@ -29,3 +29,4 @@ Store all captured screenshots in this directory using the standardized naming c
 | **7** | `phase7-security-events.png` | Windows Event Viewer on DC01 | Filtered view of Event IDs `4728` (member added) and `4724` (password reset) |
 | **8** | `phase8-aws-cloudtrail.png` | AWS CloudTrail Event History console | Shows `CreateAccessKey`, `UpdateAccessKey`, and S3 `GetObject` events |
 | **8** | `phase8-entra-roles.png` | Microsoft Entra Admin Center | Role assignments blade showing test user assigned `User Administrator` |
+

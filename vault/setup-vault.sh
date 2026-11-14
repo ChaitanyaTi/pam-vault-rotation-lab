@@ -101,3 +101,4 @@ echo "=========================================================="
 echo "[✓] Vault Initialization and Onboarding Complete!"
 echo "Audit Log: /var/log/vault_audit.log"
 echo "=========================================================="
+

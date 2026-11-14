@@ -162,3 +162,4 @@ Risk Level: High (If during Stage 4: AD password changed, but Vault not updated!
 | **P2 - High** | Single Service Account Rotation Failure | 30 mins | 2 hours | 2 simulated |
 | **P3 - Medium** | Stale Credential Discovery (> 30 days) | 4 hours | 1 business day | 1 simulated (adm_old) |
 | **P4 - Low** | Audit Log Export Failure | 8 hours | 3 business days | 1 simulated |
+

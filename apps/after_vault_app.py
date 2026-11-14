@@ -85,3 +85,4 @@ if __name__ == "__main__":
     print(" [AFTER] Secure App Fetching Secrets from HashiCorp Vault ")
     print("=" * 60)
     run_application_workload()
+
