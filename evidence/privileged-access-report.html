@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>Privileged Access Review Report - ISO 27001 Compliance</title>
@@ -15,20 +15,12 @@
     </style>
 </head>
 <body>
-    <div style="background: #0284c7; color: white; padding: 16px 24px; border-radius: 8px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(2,132,199,0.3);">
-        <div>
-            <h3 style="margin: 0; font-size: 18px; color: white;">👉 Ready for the Next Screens?</h3>
-            <p style="margin: 4px 0 0 0; font-size: 14px; color: #e0f2fe;">Click the button on the right to open the Screen Capture Studio with the left sidebar.</p>
-        </div>
-        <a href="lab-evidence-viewer.html" style="background: white; color: #0284c7; padding: 12px 22px; border-radius: 6px; font-weight: bold; text-decoration: none; font-size: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">OPEN SCREEN CAPTURE STUDIO ➔</a>
-    </div>
-
     <h1>Enterprise Privileged Access Management (PAM) Audit Report</h1>
     <div class="summary-box">
         <p><strong>Audit Scope:</strong> Active Directory (lab.local), HashiCorp Vault Safes, Windows Event Logs</p>
         <p><strong>Compliance Standard:</strong> ISO/IEC 27001:2022 Annex A (Controls 8.2, 5.15, 5.18, 8.15)</p>
-        <p><strong>Generated At:</strong> 2026-11-14T14:20:34+05:30</p>
-        <p><strong>Total Compliance Findings:</strong> 2</p>
+        <p><strong>Generated At:</strong> 2026-11-14T16:38:38+05:30</p>
+        <p><strong>Total Compliance Findings:</strong> 1</p>
     </div>
 
     <h2>Identified Non-Compliance Findings & Security Exceptions</h2>
@@ -45,14 +37,6 @@
             </tr>
         </thead>
         <tbody>            <tr>
-                <td><strong>FINDING-VAULT-002</strong></td>
-                <td>Unrotated Privileged Secret</td>
-                <td><code>service-accounts/svc_backup</code></td>
-                <td><span class="badge-med">MEDIUM</span></td>
-                <td>Service account 'svc_backup' has not been rotated in 74 days. Policy requires 30-day rotation.</td>
-                <td>Onboard svc_backup into automated rotation pipeline (rotate-ad-service-account.ps1).</td>
-                <td>A.8.2 / A.8.24</td>
-            </tr>            <tr>
                 <td><strong>FINDING-AD-001</strong></td>
                 <td>Dormant Privileged Account</td>
                 <td><code>adm_old</code></td>

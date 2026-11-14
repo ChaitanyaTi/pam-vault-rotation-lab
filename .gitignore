@@ -5,6 +5,11 @@
 # Lab-only mock credentials and sanitized audit exports are placed in evidence/.
 # ==============================================================================
 
+# Binaries & Executables
+bin/
+*.exe
+*.dll
+
 # Vault & Authentication Tokens
 *.token
 *.token.*

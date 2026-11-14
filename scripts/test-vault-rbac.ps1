@@ -16,7 +16,7 @@
 
 [CmdletBinding()]
 param(
-    [string]$VaultUrl = "http://192.168.56.20:8200"
+    [string]$VaultUrl = $(if ($env:VAULT_ADDR) { $env:VAULT_ADDR } else { 'http://127.0.0.1:8200' })
 )
 
 Write-Host "==========================================================" -ForegroundColor Cyan

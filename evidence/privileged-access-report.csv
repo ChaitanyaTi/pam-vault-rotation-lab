@@ -1,3 +1,2 @@
 "FindingId","Category","TargetAccount","RiskLevel","Evidence","RecommendedAction","ISOControl"
-"FINDING-VAULT-002","Unrotated Privileged Secret","service-accounts/svc_backup","MEDIUM","Service account 'svc_backup' has not been rotated in 74 days. Policy requires 30-day rotation.","Onboard svc_backup into automated rotation pipeline (rotate-ad-service-account.ps1).","A.8.2 / A.8.24"
 "FINDING-AD-001","Dormant Privileged Account","adm_old","HIGH","Account in 'GG-PAM-Windows-Admins' has not logged on for 188 days (LastLogon: 2026-05-10T14:22:00Z).","Immediately disable account, revoke privileged group membership, and review in quarterly access recertification.","A.8.2 / A.5.18"
