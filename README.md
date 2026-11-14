@@ -2,7 +2,7 @@
 
 An end-to-end, production-grade Privileged Access Management (PAM) laboratory simulating enterprise zero-standing-privilege architecture across Active Directory, Linux, HashiCorp Vault, JumpServer, ServiceNow, and AWS Cloud.
 Engineered with automated 4-stage credential rotation (CyberArk CPM equivalent), least-privilege RBAC policies, in-line privileged session recording with command filtering (CyberArk PSM equivalent), ServiceNow Just-In-Time (JIT) access requests, and ISO/IEC 27001:2022 compliance recertification.
-Built by [@chaitanya](https://github.com/chaitanya) to validate and demonstrate operational mastery over privileged identity security, failure-resilient credential lifecycles, and audit defense.
+Built by [@ChaitanyaTi](https://github.com/ChaitanyaTi) to validate and demonstrate operational mastery over privileged identity security, failure-resilient credential lifecycles, and audit defense.
 
 ---
 
@@ -297,7 +297,7 @@ While this lab mirrors enterprise architecture, several constraints were intenti
 ### Step-by-Step Deployment
 ```powershell
 # 1. Clone repository
-git clone https://github.com/chaitanya/pam-vault-rotation-lab.git
+git clone https://github.com/ChaitanyaTi/pam-vault-rotation-lab.git
 cd pam-vault-rotation-lab
 
 # 2. Configure environment variables
