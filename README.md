@@ -96,8 +96,10 @@ flowchart LR
   - Provisioned identities: Service accounts (`svc_webapp`, `svc_backup`), Privileged Admin (`adm_alice`), Normal User (`bob`), and Stale Admin plant (`adm_old` for Phase 7 audit).
   - Joined `WIN-APP01` to `lab.local`; deployed `appadmin` with sudo permissions on `LINUX01` via [`scripts/setup-linux-target.sh`](file:///scripts/setup-linux-target.sh).
 - **Evidence**:
-  - Screenshot: [`screenshots/phase1-network-diagram.png`](file:///screenshots/README.md)
-  - Screenshot: [`screenshots/phase1-ad-users-groups.png`](file:///screenshots/README.md)
+  - Subnet Architecture Topology:  
+    ![Phase 1 Network Topology](screenshots/phase1-network-diagram.png)
+  - Active Directory Provisioning:  
+    ![Phase 1 Active Directory Users and Groups](screenshots/phase1-ad-users-groups.png)
 
 ---
 
@@ -116,9 +118,14 @@ flowchart LR
   - User `bob` attempting to read `secret/data/service-accounts/svc_webapp` -> **HTTP 403 Forbidden** (Access Denied).
   - User `alice` reading `secret/data/service-accounts/svc_webapp` -> **HTTP 200 OK** (Allowed).
 - **Evidence**:
-  - Audit log entries: [`evidence/sample-vault_audit.log`](file:///evidence/sample-vault_audit.log)
-  - Screenshot: [`screenshots/phase2-bob-denied-test.png`](file:///screenshots/README.md)
-  - Screenshot: [`screenshots/phase2-alice-allowed-test.png`](file:///screenshots/README.md)
+  - Vault HCL Access Policies:  
+    ![Phase 2 Vault Policies](screenshots/phase2-vault-policies.png)
+  - Bob Access Denied (HTTP 403):  
+    ![Phase 2 Bob Denied Test](screenshots/phase2-bob-denied-test.png)
+  - Alice Allowed Safe (HTTP 200):  
+    ![Phase 2 Alice Allowed Test](screenshots/phase2-alice-allowed-test.png)
+  - Vault Audit Log Stream:  
+    ![Phase 2 Vault Audit Log](screenshots/phase2-audit-log.png)
 
 ---
 
@@ -137,8 +144,10 @@ flowchart LR
     - *After*: [`apps/after_vault_app.py`](file:///apps/after_vault_app.py) retrieving credentials dynamically at runtime via Vault REST API (`X-Vault-Token`).
     - *Stretch*: [`apps/approle_vault_app.py`](file:///apps/approle_vault_app.py) implementing machine identity using Vault AppRole (`role_id` and `secret_id`).
 - **Evidence**:
-  - Account inventory: [`docs/account-register.csv`](file:///docs/account-register.csv)
-  - Code diff & execution screenshots: [`screenshots/phase3-app-code-diff.png`](file:///screenshots/README.md)
+  - Secret Safes Inventory:  
+    ![Phase 3 Vault Safes](screenshots/phase3-vault-safes.png)
+  - Application Hardcoded vs Vaulted Diff:  
+    ![Phase 3 App Code Transformation](screenshots/phase3-app-code-diff.png)
 
 ---
 
@@ -156,9 +165,10 @@ flowchart LR
     - AWS IAM Access Key pair rotation: [`scripts/rotate-aws-iam-key.ps1`](file:///scripts/rotate-aws-iam-key.ps1)
   - Scheduled automated 30-day recurring execution via Windows Task Scheduler ([`scripts/schedule-rotations.ps1`](file:///scripts/schedule-rotations.ps1)).
 - **Evidence**:
-  - Rotation audit log: [`evidence/sample-rotation.log`](file:///evidence/sample-rotation.log)
-  - Operational runbook: [`docs/runbook.md`](file:///docs/runbook.md)
-  - Screenshot: [`screenshots/phase4-rotation-success.png`](file:///screenshots/README.md)
+  - 4-Stage Transactional Rotation Execution:  
+    ![Phase 4 Rotation Success](screenshots/phase4-rotation-success.png)
+  - Operational Failure Scenarios & ITSM Incidents:  
+    ![Phase 4 Rotation Failures](screenshots/phase4-rotation-failures.png)
 
 ---
 
@@ -174,8 +184,10 @@ flowchart LR
     2. Windows Server administrative RDP session inspecting services.
     3. High-risk command execution attempt (`rm -rf /tmp/testdir`) intercepted and blocked by security gateway.
 - **Evidence**:
-  - Session replay screenshots: [`screenshots/phase5-jumpserver-session-replay.png`](file:///screenshots/README.md)
-  - Blocked command alert: [`screenshots/phase5-command-filter-blocked.png`](file:///screenshots/README.md)
+  - Session Recording & Keystroke Replay:  
+    ![Phase 5 JumpServer Session Replay](screenshots/phase5-jumpserver-session-replay.png)
+  - In-Line Command Filter Alert:  
+    ![Phase 5 Command Filter Interception](screenshots/phase5-command-filter-blocked.png)
 
 ---
 
@@ -192,8 +204,12 @@ flowchart LR
   - Validated real-time TTL countdown via `Get-ADGroup -ShowMemberTimeToLive`. Confirmed automatic revocation upon expiration.
   - Integrated ServiceNow REST Table API in rotation script catch block (`POST /api/now/table/incident`): Auto-creates incidents on rotation failures. Resolved 3 simulated incidents tracking SLA response times.
 - **Evidence**:
-  - JIT TTL countdown screenshot: [`screenshots/phase6-jit-group-ttl.png`](file:///screenshots/README.md)
-  - ServiceNow Incident ticket: [`screenshots/phase6-servicenow-incident.png`](file:///screenshots/README.md)
+  - ServiceNow Catalog Request Form:  
+    ![Phase 6 ServiceNow Request](screenshots/phase6-servicenow-catalog-request.png)
+  - AD PAM Real-Time MemberTimeToLive Grant:  
+    ![Phase 6 JIT Group TTL](screenshots/phase6-jit-group-ttl.png)
+  - Auto-Generated ServiceNow Incident:  
+    ![Phase 6 ServiceNow Incident](screenshots/phase6-servicenow-incident.png)
 
 ---
 
@@ -211,9 +227,10 @@ flowchart LR
   - Authored formal compliance report: [`evidence/findings-remediation-report.md`](file:///evidence/findings-remediation-report.md).
   - Mapped technical controls to ISO/IEC 27001:2022 Annex A ([`docs/iso27001-mapping.md`](file:///docs/iso27001-mapping.md)).
 - **Evidence**:
-  - Generated CSV report: [`evidence/privileged-access-report.csv`](file:///evidence/privileged-access-report.csv)
-  - Executive HTML audit report: `evidence/privileged-access-report.html`
-  - Screenshot: [`screenshots/phase7-audit-html-report.png`](file:///screenshots/README.md)
+  - ISO 27001 Compliance Review & Stale Account Finding:  
+    ![Phase 7 Audit Report](screenshots/phase7-audit-html-report.png)
+  - Windows Security Events Correlated:  
+    ![Phase 7 Security Events](screenshots/phase7-security-events.png)
 
 ---
 
@@ -225,9 +242,10 @@ flowchart LR
   - Documented Microsoft Entra ID Privileged Identity Management (PIM) architecture and role activation workflows.
   - Published comprehensive comparative architectural analysis: [`docs/cloud-pam-comparison.md`](file:///docs/cloud-pam-comparison.md) comparing on-prem AD Kerberos tickets vs Entra ID OAuth tokens vs AWS STS temporary credentials.
 - **Evidence**:
-  - IAM Policy: [`vault/policies/aws-least-privilege-s3.json`](file:///vault/policies/aws-least-privilege-s3.json)
-  - CloudTrail events screenshot: [`screenshots/phase8-aws-cloudtrail.png`](file:///screenshots/README.md)
-  - Entra ID role assignment screenshot: [`screenshots/phase8-entra-roles.png`](file:///screenshots/README.md)
+  - AWS CloudTrail Audit Stream:  
+    ![Phase 8 AWS CloudTrail Events](screenshots/phase8-aws-cloudtrail.png)
+  - Microsoft Entra ID PIM Role Assignments:  
+    ![Phase 8 Entra Roles](screenshots/phase8-entra-roles.png)
 
 ---
 
