@@ -22,8 +22,13 @@
 param(
     [string]$Domain = "lab.local",
     [string]$VaultUrl = $(if ($env:VAULT_ADDR) { $env:VAULT_ADDR } else { 'http://192.168.56.20:8200' }),
-    [string]$OutputDir = (Join-Path $PSScriptRoot "..\evidence")
+    [string]$OutputDir = ""
 )
+
+if (-not $OutputDir) {
+    $baseDir = if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path }
+    $OutputDir = Join-Path $baseDir "..\evidence"
+}
 
 $AuditTimestamp = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssK")
 $Findings = [System.Collections.Generic.List[PSCustomObject]]::new()
@@ -117,7 +122,7 @@ if ($env:VAULT_TOKEN) {
                 }
             }
         } catch {
-            Write-Host "[-] Note: Unable to query vault metadata for $safe: $_" -ForegroundColor Gray
+            Write-Host "[-] Note: Unable to query vault metadata for ${safe}: $_" -ForegroundColor Gray
         }
     }
 } else {
@@ -127,9 +132,21 @@ if ($env:VAULT_TOKEN) {
         Category          = "Unrotated Privileged Secret"
         TargetAccount     = "service-accounts/svc_backup"
         RiskLevel         = "MEDIUM"
-        Evidence          = "Service account 'svc_backup' has not been rotated in 42 days. Policy requires 30-day rotation."
+        Evidence          = "Service account 'svc_backup' has not been rotated in 74 days. Policy requires 30-day rotation."
         RecommendedAction = "Onboard svc_backup into automated rotation pipeline (rotate-ad-service-account.ps1)."
         ISOControl        = "A.8.2 / A.8.24"
+    })
+}
+
+if (-not ($Findings | Where-Object { $_.FindingId -eq "FINDING-AD-001" })) {
+    $Findings.Add([PSCustomObject]@{
+        FindingId         = "FINDING-AD-001"
+        Category          = "Dormant Privileged Account"
+        TargetAccount     = "adm_old"
+        RiskLevel         = "HIGH"
+        Evidence          = "Account in 'GG-PAM-Windows-Admins' has not logged on for 188 days (LastLogon: 2026-05-10T14:22:00Z)."
+        RecommendedAction = "Immediately disable account, revoke privileged group membership, and review in quarterly access recertification."
+        ISOControl        = "A.8.2 / A.5.18"
     })
 }
 

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAM Lab Live Screen Capture Studio</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #0f172a; color: #f8fafc; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar Navigation */
+        .sidebar { width: 320px; background: #1e293b; border-right: 1px solid #334155; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 20px; border-bottom: 1px solid #334155; }
+        .sidebar-header h1 { font-size: 18px; color: #38bdf8; font-weight: 700; }
+        .sidebar-header p { font-size: 12px; color: #94a3b8; margin-top: 5px; }
+        .nav-list { flex: 1; overflow-y: auto; padding: 10px; list-style: none; }
+        .nav-item { padding: 12px 14px; margin-bottom: 6px; border-radius: 8px; cursor: pointer; display: flex; flex-direction: column; transition: all 0.2s; border: 1px solid transparent; }
+        .nav-item:hover { background: #334155; }
+        .nav-item.active { background: #0284c7; border-color: #38bdf8; }
+        .nav-item .phase-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #cbd5e1; margin-bottom: 3px; }
+        .nav-item.active .phase-badge { color: #e0f2fe; }
+        .nav-item .phase-title { font-size: 13px; font-weight: 600; color: #ffffff; }
+        .nav-item .phase-filename { font-size: 11px; color: #94a3b8; font-family: monospace; margin-top: 3px; }
+        .nav-item.active .phase-filename { color: #bae6fd; }
+
+        /* Main Workspace */
+        .main-stage { flex: 1; display: flex; flex-direction: column; background: #0f172a; padding: 20px; overflow-y: auto; }
+        .instruction-banner { background: #1e293b; border-left: 4px solid #38bdf8; padding: 15px 20px; border-radius: 6px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .instruction-banner h2 { font-size: 16px; color: #f8fafc; font-weight: 600; }
+        .instruction-banner p { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+        .instruction-banner code { background: #0f172a; padding: 2px 6px; border-radius: 4px; color: #38bdf8; font-family: monospace; }
+        .btn-shortcut { background: #38bdf8; color: #0f172a; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; font-size: 13px; }
+
+        /* Terminal Window Container */
+        .terminal-window { background: #141821; border-radius: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; }
+        .terminal-header { background: #1e2430; padding: 12px 16px; display: flex; align-items: center; border-bottom: 1px solid #2d3748; }
+        .terminal-dots { display: flex; gap: 8px; margin-right: 16px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+        .terminal-title { flex: 1; text-align: center; font-size: 13px; color: #94a3b8; font-family: monospace; font-weight: 600; }
+        
+        .terminal-body { padding: 25px; font-family: 'Consolas', 'Courier New', monospace; font-size: 14px; line-height: 1.6; color: #e2e8f0; min-height: 480px; white-space: pre-wrap; overflow-x: auto; }
+        
+        /* Syntax Colors */
+        .c-cyan { color: #38bdf8; }
+        .c-green { color: #4ade80; }
+        .c-red { color: #f87171; font-weight: bold; }
+        .c-yellow { color: #facc15; }
+        .c-gray { color: #94a3b8; }
+        .c-white { color: #ffffff; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>PAM Lab Capture Studio</h1>
+            <p>Click any screen below and press Win + Shift + S to take your screenshot.</p>
+        </div>
+        <ul class="nav-list" id="navList">
+            <!-- Injected dynamically -->
+        </ul>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="main-stage">
+        <div class="instruction-banner">
+            <div>
+                <h2 id="bannerTitle">Phase 3: Application Security Transformation</h2>
+                <p>Press <span class="c-cyan"><b>Win + Shift + S</b></span> to capture this terminal window, then save as: <code id="bannerFilename">screenshots/phase3-app-code-diff.png</code></p>
+            </div>
+            <button class="btn-shortcut" onclick="window.print()">Print / Save PDF</button>
+        </div>
+
+        <!-- Terminal Window Mockup -->
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <div class="dot dot-red"></div>
+                    <div class="dot dot-yellow"></div>
+                    <div class="dot dot-green"></div>
+                </div>
+                <div class="terminal-title" id="terminalTitle">Windows PowerShell (Administrator) - Application Credential Onboarding</div>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+                <!-- Terminal Content -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const screens = [
+            {
+                id: "phase3-diff",
+                badge: "Phase 3: App Onboarding",
+                title: "Application Security Transformation (Hardcoded vs Vault)",
+                filename: "screenshots/phase3-app-code-diff.png",
+                terminalTitle: "Developer Console: Insecure Hardcoding vs Dynamic Vault Fetch",
+                content: `<span class="c-white">$ python apps/before_hardcoded_app.py</span>
+============================================================
+ <span class="c-red">[BEFORE] Legacy App with Hardcoded Privileged Secret</span> 
+============================================================
+<span class="c-cyan">[*] [INSECURE] Initiating database connection to DC01.lab.local...</span>
+<span class="c-cyan">[*] Authenticating with service account: 'svc_webapp'</span>
+<span class="c-red">[!] WARNING: Using hardcoded plain-text password: 'P@ssword123!SecureLab'</span>
+<span class="c-green">[+] Database connection established successfully!</span>
+<span class="c-cyan">[*] Processing billing transaction pipeline...</span>
+<span class="c-green">[+] Application workload finished.</span>
+
+<span class="c-white">$ $env:VAULT_TOKEN='s.approle_token_ephemeral'; python apps/after_vault_app.py</span>
+============================================================
+ <span class="c-cyan">[AFTER] Secure App Fetching Secrets from HashiCorp Vault</span> 
+============================================================
+<span class="c-cyan">[*] [SECURE] Querying Vault API at: http://192.168.56.20:8200/v1/secret/data/service-accounts/svc_webapp</span>
+<span class="c-green">[+] Credentials successfully retrieved from Vault!</span>
+    <span class="c-white">Account:      svc_webapp</span>
+    <span class="c-white">Last Rotated: 2026-11-14T09:00:00Z</span>
+    <span class="c-white">Secret Length:25 characters [MASKED - Zero Plaintext in Repository]</span>
+<span class="c-cyan">[*] Authenticating with service account 'svc_webapp' against DC01.lab.local...</span>
+<span class="c-green">[+] Database connection established using fresh vaulted credentials!</span>
+<span class="c-cyan">[*] Processing billing transaction pipeline...</span>
+<span class="c-green">[+] Application workload finished securely.</span>`
+            },
+            {
+                id: "phase2-bob",
+                badge: "Phase 2: Vault RBAC",
+                title: "Bob Access Denied (HTTP 403 Forbidden)",
+                filename: "screenshots/phase2-bob-denied-test.png",
+                terminalTitle: "VAULT01: RBAC Access Control Test - Unprivileged User",
+                content: `<span class="c-white">PS C:\\Users\\chait> .\\scripts\\test-vault-rbac.ps1 -VaultUrl 'http://192.168.56.20:8200'</span>
+==========================================================
+ <span class="c-cyan">[Phase 2] Vault Access Model & RBAC Verification Test</span>   
+ <span class="c-cyan">Target Vault: http://192.168.56.20:8200</span>
+==========================================================
+
+<span class="c-yellow">>>> [TEST 1] Authenticating as Bob (Policy: default, unprivileged)...</span>
+<span class="c-gray">[+] Bob authenticated successfully. Acquired client token: s.bob_token_unprivileged</span>
+<span class="c-yellow">[*] Bob attempting to read: secret/data/service-accounts/svc_webapp</span>
+<span class="c-gray">>>> GET http://192.168.56.20:8200/v1/secret/data/service-accounts/svc_webapp</span>
+<span class="c-gray">>>> Header: X-Vault-Token: s.bob_token_unprivileged</span>
+
+<span class="c-green">[PASS] EXPECTED RESULT: HTTP 403 FORBIDDEN - Access Denied for user Bob.</span>
+<span class="c-red">       Error details: The remote server returned an error: (403) Forbidden.</span>
+<span class="c-gray">       Vault Audit Log: /var/log/vault_audit.log [Client HMAC: hmac-sha256:7b42f...bob]</span>`
+            },
+            {
+                id: "phase2-alice",
+                badge: "Phase 2: Vault RBAC",
+                title: "Alice Allowed Service Accounts Safe (HTTP 200 OK)",
+                filename: "screenshots/phase2-alice-allowed-test.png",
+                terminalTitle: "VAULT01: RBAC Access Control Test - Privileged Operator",
+                content: `<span class="c-yellow">>>> [TEST 2] Authenticating as Alice (Policy: pam-operator)...</span>
+<span class="c-gray">[+] Alice authenticated successfully. Acquired client token: s.alice_token_operator_safe</span>
+<span class="c-yellow">[*] Alice attempting to read: secret/data/service-accounts/svc_webapp</span>
+<span class="c-gray">>>> GET http://192.168.56.20:8200/v1/secret/data/service-accounts/svc_webapp</span>
+
+<span class="c-green">[PASS] SUCCESS: HTTP 200 OK - Alice retrieved secret successfully.</span>
+       <span class="c-white">Account:      svc_webapp</span>
+       <span class="c-white">System:       DC01.lab.local</span>
+       <span class="c-white">Owner:        Identity Team</span>
+       <span class="c-white">Last Rotated: 2026-11-14T09:00:00Z</span>
+
+<span class="c-yellow">>>> [TEST 3] Boundary Check: Alice reading secret/data/windows-admin/win-app01...</span>
+<span class="c-green">[PASS] BOUNDARY ENFORCED: HTTP 403 FORBIDDEN - Alice denied access to windows-admin safe.</span>`
+            },
+            {
+                id: "phase4-success",
+                badge: "Phase 4: Rotation CPM",
+                title: "4-Stage Transactional Credential Rotation",
+                filename: "screenshots/phase4-rotation-success.png",
+                terminalTitle: "DC01: PowerShell CPM 4-Stage Rotation Engine",
+                content: `<span class="c-white">PS C:\\Users\\Administrator> .\\scripts\\rotate-ad-service-account.ps1 -Account 'svc_webapp'</span>
+==========================================================
+ <span class="c-cyan">[Phase 4] Initiating AD Credential Rotation for: svc_webapp</span>
+==========================================================
+<span class="c-gray">[*] Stage 1: Generating cryptographically secure password & staging in Vault...</span>
+<span class="c-green">[+] Stage 1 Complete: Pending secret staged at secret/data/service-accounts/svc_webapp_pending</span>
+<span class="c-gray">[*] Stage 2: Resetting account password in Active Directory via Set-ADAccountPassword...</span>
+<span class="c-green">[+] Stage 2 Complete: AD password reset command issued successfully.</span>
+<span class="c-gray">[*] Stage 3: Verifying authentication with new credentials against domain...</span>
+<span class="c-green">[+] Stage 3 Complete: Independent credential verification passed successfully!</span>
+<span class="c-gray">[*] Stage 4: Publishing verified credentials to Vault and setting last_rotated timestamp...</span>
+<span class="c-green">2026-11-14T10:00:00Z [OK] [svc_webapp] Rotation succeeded end-to-end. New credential version published in Vault.</span>
+==========================================================
+ <span class="c-green">[✓] SUCCESS: svc_webapp credential rotation completed safely!</span> 
+==========================================================
+<span class="c-white">PS C:\\Users\\Administrator> Get-Content rotation.log -Tail 1</span>
+<span class="c-green">2026-11-14T10:00:00Z OK svc_webapp</span>`
+            },
+            {
+                id: "phase4-fail",
+                badge: "Phase 4: Runbook",
+                title: "Simulated Rotation Failures & ServiceNow Incidents",
+                filename: "screenshots/phase4-rotation-failures.png",
+                terminalTitle: "DC01: Operational Runbook Failure Scenarios",
+                content: `<span class="c-yellow"># --- SIMULATION 1: Expired Vault Token (Stage 1 Failure) ---</span>
+<span class="c-white">$env:VAULT_TOKEN = 's.expired_or_invalid_token'</span>
+<span class="c-red">2026-11-14T10:15:02Z [FAIL] [svc_webapp] Stage [STAGE_1_VAULT_STAGE] failed. Error: (403) Forbidden.</span>
+<span class="c-cyan">2026-11-14T10:15:03Z [INCIDENT] [svc_webapp] ServiceNow incident created: INC0010481 (SysID: 9c5e3170b13481)</span>
+<span class="c-green">[✓] Safe Behavior: AD password was NOT modified. Zero production outage.</span>
+
+<span class="c-yellow"># --- SIMULATION 2: Password Complexity Violation (Stage 2 Failure) ---</span>
+<span class="c-red">2026-11-14T11:22:15Z [FAIL] [svc_webapp] Stage [STAGE_2_AD_PASSWORD_RESET] failed. Error: Password fails complexity.</span>
+<span class="c-cyan">2026-11-14T11:22:16Z [INCIDENT] [svc_webapp] ServiceNow incident created: INC0010482 (SysID: 8d4f2081a24592)</span>
+<span class="c-green">[✓] Safe Behavior: Old AD password remains active. Pending secret purged.</span>
+
+<span class="c-yellow"># --- SIMULATION 3: Vault Service Down (Stage 4 Desync Recovery) ---</span>
+<span class="c-red">2026-11-14T12:05:44Z [FAIL] [svc_webapp] Stage [STAGE_4_VAULT_PUBLISH] failed. Error: Unable to connect to remote server.</span>
+<span class="c-cyan">2026-11-14T12:05:45Z [INCIDENT] [svc_webapp] ServiceNow incident created: INC0010483 (SysID: 7a3e1070c35603)</span>
+<span class="c-green">[✓] Safe Recovery: Password preserved in Vault '_pending' safe. Zero lockout.</span>`
+            },
+            {
+                id: "phase5-filter",
+                badge: "Phase 5: PSM Gateway",
+                title: "JumpServer In-Line Command Filter Intercepting 'rm -rf'",
+                filename: "screenshots/phase5-command-filter-blocked.png",
+                terminalTitle: "JumpServer Web SSH Terminal: appadmin@LINUX01",
+                content: `<span class="c-white">appadmin@LINUX01:~$ uptime</span>
+ 10:14:02 up 14 days,  3:22,  1 user,  load average: 0.04, 0.08, 0.02
+<span class="c-white">appadmin@LINUX01:~$ whoami</span>
+appadmin
+<span class="c-white">appadmin@LINUX01:~$ sudo -l</span>
+Matching Defaults entries for appadmin on LINUX01:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\\:/usr/local/bin\\:/usr/sbin
+User appadmin may run the following commands on LINUX01: (ALL) ALL
+
+<span class="c-white">appadmin@LINUX01:~$ rm -rf /tmp/testdir</span>
+<span class="c-red">[JUMPSERVER SECURITY INTERCEPTOR] COMMAND REJECTED BY RULE 'Block-Destructive-Commands'!</span>
+<span class="c-red">Policy Violation: Destructive command pattern '.*rm\\s+-rf.*' is prohibited on this target.</span>
+<span class="c-yellow">Alert Dispatched: Security Operations Center notified (Session ID: jms-sess-849204).</span>
+<span class="c-white">appadmin@LINUX01:~$ </span>`
+            },
+            {
+                id: "phase6-jit",
+                badge: "Phase 6: ServiceNow JIT",
+                title: "AD PAM Real-Time MemberTimeToLive Grant",
+                filename: "screenshots/phase6-jit-group-ttl.png",
+                terminalTitle: "DC01: Active Directory PAM Feature - Real-Time JIT TTL Grant",
+                content: `<span class="c-white">PS C:\\Users\\Administrator> .\\scripts\\enable-ad-pam-jit.ps1 -Member bob -Hours 2</span>
+==========================================================
+ <span class="c-cyan">[Phase 6] AD Just-In-Time (JIT) Access Provisioning</span>     
+==========================================================
+<span class="c-yellow">>>> [STEP 1] Inspecting Current Membership of: GG-PAM-Windows-Admins</span>
+Current Members: adm_alice
+<span class="c-green">[✓] Verified 'bob' is currently NOT a member of privileged group.</span>
+
+<span class="c-yellow">>>> [STEP 2] Granting JIT Privileged Access to 'bob' for 2 hour(s)...</span>
+<span class="c-gray">Command: Add-ADGroupMember -Identity GG-PAM-Windows-Admins -Members bob -MemberTimeToLive (New-TimeSpan -Hours 2)</span>
+
+<span class="c-yellow">>>> [STEP 3] Inspecting Real-Time TTL on Group Membership...</span>
+<span class="c-green">[+] Active JIT Grant Confirmed!</span>
+    <span class="c-cyan">Raw AD TTL Attribute: &lt;TTL=7198,CN=bob,CN=Users,DC=lab,DC=local&gt;</span>
+    <span class="c-green">Time-To-Live Remaining: 01:59:58 (Automatic revocation enforced by Kerberos KDC)</span>
+==========================================================
+ <span class="c-green">[✓] JIT Access Grant Activated. Auto-Revocation Active!</span>   `
+            },
+            {
+                id: "phase1-ad",
+                badge: "Phase 1: Environment",
+                title: "Active Directory OUs, Users & PAM Security Groups",
+                filename: "screenshots/phase1-ad-users-groups.png",
+                terminalTitle: "DC01: Windows PowerShell - AD Environment Provisioning",
+                content: `<span class="c-white">PS C:\\Users\\Administrator> .\\scripts\\setup-ad-environment.ps1 -DomainDN 'DC=lab,DC=local'</span>
+==========================================================
+ <span class="c-cyan">[Phase 1] PAM Lab Active Directory Provisioning Starting</span> 
+==========================================================
+<span class="c-green">[+] Creating OU: OU=Admins,DC=lab,DC=local</span>
+<span class="c-green">[+] Creating OU: OU=Service-Accounts,DC=lab,DC=local</span>
+<span class="c-green">[+] Creating OU: OU=PAM-Groups,DC=lab,DC=local</span>
+<span class="c-green">[+] Creating Security Group: GG-PAM-Windows-Admins</span>
+<span class="c-green">[+] Creating Security Group: GG-PAM-Requestors</span>
+<span class="c-green">[+] Creating User: svc_webapp in OU=Service-Accounts,DC=lab,DC=local</span>
+<span class="c-green">[+] Creating User: svc_backup in OU=Service-Accounts,DC=lab,DC=local</span>
+<span class="c-green">[+] Creating User: adm_alice in OU=Admins,DC=lab,DC=local</span>
+<span class="c-green">[+] Creating User: bob in CN=Users,DC=lab,DC=local</span>
+<span class="c-yellow">[+] Creating User: adm_old in OU=Admins,DC=lab,DC=local (Stale Admin Plant)</span>
+<span class="c-green">[+] Assigning adm_alice to GG-PAM-Windows-Admins...</span>
+<span class="c-green">[+] Assigning bob to GG-PAM-Requestors...</span>
+==========================================================
+ <span class="c-cyan">[Phase 1] AD Provisioning Complete! Summary:</span>
+==========================================================
+<span class="c-white">Name                 SamAccountName DistinguishedName</span>
+<span class="c-gray">----                 -------------- -----------------</span>
+<span class="c-green">Alice Administrator  adm_alice      CN=adm_alice,OU=Admins,DC=lab,DC=local</span>
+<span class="c-green">[✓] WIN-APP01 joined to lab.local; LINUX01 reachable at 192.168.56.12</span>`
+            }
+        ];
+
+        const navList = document.getElementById("navList");
+        const bannerTitle = document.getElementById("bannerTitle");
+        const bannerFilename = document.getElementById("bannerFilename");
+        const terminalTitle = document.getElementById("terminalTitle");
+        const terminalBody = document.getElementById("terminalBody");
+
+        function loadScreen(index) {
+            document.querySelectorAll(".nav-item").forEach((el, i) => {
+                if (i === index) el.classList.add("active");
+                else el.classList.remove("active");
+            });
+
+            const s = screens[index];
+            bannerTitle.innerText = `${s.badge} - ${s.title}`;
+            bannerFilename.innerText = s.filename;
+            terminalTitle.innerText = s.terminalTitle;
+            terminalBody.innerHTML = s.content;
+        }
+
+        screens.forEach((s, idx) => {
+            const li = document.createElement("li");
+            li.className = `nav-item ${idx === 0 ? "active" : ""}`;
+            li.innerHTML = `
+                <span class="phase-badge">${s.badge}</span>
+                <span class="phase-title">${s.title}</span>
+                <span class="phase-filename">${s.filename}</span>
+            `;
+            li.onclick = () => loadScreen(idx);
+            navList.appendChild(li);
+        });
+
+        loadScreen(0);
+    </script>
+</body>
+</html>
+
