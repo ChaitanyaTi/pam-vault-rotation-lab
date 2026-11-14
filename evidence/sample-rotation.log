@@ -1,0 +1,11 @@
+2026-11-14T08:00:00+05:30 [OK] [Administrator] Local admin on WIN-APP01 rotated successfully. Published to secret/data/windows-admin/win-app01
+2026-11-14T08:15:00+05:30 [OK] [appadmin] Linux user on LINUX01 rotated via chpasswd. Published to secret/data/linux-root/linux01
+2026-11-14T09:00:00+05:30 [OK] [svc_webapp] Rotation succeeded end-to-end. Staged pending, updated AD, verified credentials, published active secret.
+2026-11-14T09:30:00+05:30 [OK] [AWS-IAM-lab-pam-svc] NewKey:AKIAIOSFODNN7EXAMPLE Published to secret/data/aws/iam-user. Old key deactivated and deleted.
+2026-11-14T10:15:02+05:30 [FAIL] [svc_webapp] Stage [STAGE_1_VAULT_STAGE] failed. Error: The remote server returned an error: (403) Forbidden.
+2026-11-14T10:15:03+05:30 [INCIDENT] [svc_webapp] ServiceNow incident created: INC0010481 (SysID: 9c5e3170b13481)
+2026-11-14T11:22:15+05:30 [FAIL] [svc_webapp] Stage [STAGE_2_AD_PASSWORD_RESET] failed. Error: The password does not meet domain complexity requirements.
+2026-11-14T11:22:16+05:30 [INCIDENT] [svc_webapp] ServiceNow incident created: INC0010482 (SysID: 8d4f2081a24592)
+2026-11-14T12:05:44+05:30 [FAIL] [svc_webapp] Stage [STAGE_1_VAULT_STAGE] failed. Error: Unable to connect to remote server: http://192.168.56.20:8200
+2026-11-14T12:05:45+05:30 [INCIDENT] [svc_webapp] ServiceNow incident created: INC0010483 (SysID: 7a3e1070c35603)
+2026-11-14T12:30:00+05:30 [OK] [svc_webapp] Post-incident recovery rotation succeeded end-to-end. New credential version published in Vault.

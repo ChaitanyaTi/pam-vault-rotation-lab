@@ -1,0 +1,5 @@
+AccountId,AccountName,TargetSystem,VaultSafePath,Owner,BusinessPurpose,AccountType,RotationCadenceDays,AuthorizedRetrieveRole,Approver,LastRotationDate,ReviewDate,Status
+ACC-001,Administrator,WIN-APP01.lab.local,secret/windows-admin/win-app01,@chaitanya,Local disaster recovery and emergency host management on application server,WindowsLocalAdmin,30,pam-admin,SecOps-Lead,2026-11-14T08:00:00Z,2026-12-31,Active
+ACC-002,appadmin,LINUX01 (192.168.56.12),secret/linux-root/linux01,DevOps Team,Execution of host-level patches systemctl services and sudo management,LinuxLocalSudo,30,pam-operator,DevOps-Manager,2026-11-14T08:15:00Z,2026-12-31,Active
+ACC-003,svc_webapp,DC01.lab.local,secret/service-accounts/svc_webapp,Identity Team,Service identity running backend billing & auth worker application,ADServiceAccount,30,pam-operator;webapp-approle,Identity-Architect,2026-11-14T09:00:00Z,2026-12-31,Active
+ACC-004,lab-pam-svc,AWS Cloud (Account 123456789012),secret/aws/iam-user,Cloud Platform Team,Programmatic read-only backup pipeline to S3 storage bucket,AWSIAMUser,90,pam-admin;pam-operator,Cloud-Sec-Director,2026-11-14T09:30:00Z,2027-02-14,Active

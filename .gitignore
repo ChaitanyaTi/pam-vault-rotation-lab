@@ -1,0 +1,78 @@
+# ==============================================================================
+# Privileged Access Management (PAM) Lab - .gitignore
+# ==============================================================================
+# Rule: Never commit real secrets, tokens, private keys, or cloud credentials.
+# Lab-only mock credentials and sanitized audit exports are placed in evidence/.
+# ==============================================================================
+
+# Vault & Authentication Tokens
+*.token
+*.token.*
+.vault-token
+vault_token.txt
+token.txt
+*root_token*
+*unseal_key*
+
+# Environment and Secret Files
+.env
+.env.*
+!.env.example
+secrets/
+*secret*.json
+*secret*.yaml
+*secret*.yml
+credentials.json
+creds.json
+service_account.json
+aws_credentials
+aws_config
+
+# Certificates and Private Keys
+*.pem
+*.key
+*.pkcs12
+*.pfx
+*.p12
+*.crt
+*.cer
+
+# Application and System Logs (keep sanitized samples in evidence/ directory)
+*.log
+!evidence/*.log
+rotation.log
+vault_audit.log
+audit.log
+app.log
+
+# Vault Data Directory (In-memory dev mode or local file storage)
+vault/data/
+vault/file/
+.vault/
+
+# JumpServer & Teleport Data / Docker Volumes
+jumpserver-data/
+teleport-data/
+*.rbi
+*.session
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.pytest_cache/
+
+# PowerShell
+*.ps1xml
+*psscriptanalyzer*
+
+# OS and Editor Specific Files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
