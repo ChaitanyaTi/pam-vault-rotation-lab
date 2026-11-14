@@ -76,7 +76,7 @@ try {
         aws iam delete-access-key --user-name $UserName --access-key-id $oldKeyId
     }
 
-    Write-Host "[✓] AWS IAM Access Key rotation completed successfully!" -ForegroundColor Green
+    Write-Host "[OKOKOK] AWS IAM Access Key rotation completed successfully!" -ForegroundColor Green
     Add-Content "rotation.log" "$((Get-Date -Format s)) OK AWS-IAM-$UserName NewKey:$newKeyId"
 
 } catch {
@@ -84,4 +84,5 @@ try {
     Add-Content "rotation.log" "$((Get-Date -Format s)) FAIL AWS-IAM-$UserName $($_.Exception.Message)"
     exit 1
 }
+
 

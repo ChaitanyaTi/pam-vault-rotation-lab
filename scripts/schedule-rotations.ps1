@@ -40,6 +40,7 @@ Register-ScheduledTask `
     -User "NT AUTHORITY\SYSTEM" `
     -Force
 
-Write-Host "[✓] Scheduled Task registered successfully! Details:" -ForegroundColor Green
+Write-Host "[OKOKOK] Scheduled Task registered successfully! Details:" -ForegroundColor Green
 Get-ScheduledTask -TaskName $TaskName | Select-Object TaskName, State, Date | Format-Table -AutoSize
+
 

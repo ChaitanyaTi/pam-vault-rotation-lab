@@ -83,7 +83,7 @@ try {
         last_rotated = (Get-Date -Format s)
     }
 
-    Write-Host "[✓] Local Administrator password on $TargetHost rotated successfully!" -ForegroundColor Green
+    Write-Host "[OKOKOK] Local Administrator password on $TargetHost rotated successfully!" -ForegroundColor Green
     Add-Content "rotation.log" "$((Get-Date -Format s)) OK LocalAdmin-$TargetHost"
 
 } catch {
@@ -91,4 +91,5 @@ try {
     Add-Content "rotation.log" "$((Get-Date -Format s)) FAIL LocalAdmin-$TargetHost $($_.Exception.Message)"
     exit 1
 }
+
 

@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     Automated Active Directory Service Account Credential Rotation (CyberArk CPM Equivalent).
 
@@ -37,20 +37,21 @@
 [CmdletBinding()]
 param(
     [string]$Account = 'svc_webapp',
-    [string]$VaultUrl = $(if ($env:VAULT_ADDR) { $env:VAULT_ADDR } else { 'http://192.168.56.20:8200' }),
-    [switch]$EnableServiceNowIncident = $true
+    [string]$VaultUrl = $(if ($env:VAULT_ADDR) { $env:VAULT_ADDR } else { 'http://127.0.0.1:8200' }),
+    [string]$VaultToken = $(if ($env:VAULT_TOKEN) { $env:VAULT_TOKEN } else { 'root' }),
+    [switch]$EnableServiceNowIncident = $false
 )
 
 $ErrorActionPreference = 'Stop'
 $ScriptStartTime = Get-Date
 
-# Ensure Vault Token is present in environment
-if (-not $env:VAULT_TOKEN) {
-    Write-Error "CRITICAL: Environment variable VAULT_TOKEN is missing. Rotation aborted."
+# Ensure Vault Token is present
+if (-not $VaultToken) {
+    Write-Error "CRITICAL: Vault Token is missing. Pass -VaultToken or set VAULT_TOKEN."
     exit 1
 }
 
-$hdr  = @{ 'X-Vault-Token' = $env:VAULT_TOKEN }
+$hdr  = @{ 'X-Vault-Token' = $VaultToken }
 $base = "$VaultUrl/v1/secret/data/service-accounts/"
 $logFile = Join-Path $PSScriptRoot "..\evidence\rotation.log"
 # Also log to current directory if running locally
@@ -214,7 +215,7 @@ try {
 
     Write-RotationLog "OK" "Rotation succeeded end-to-end. New credential version published in Vault."
     Write-Host "==========================================================" -ForegroundColor Green
-    Write-Host " [✓] SUCCESS: $Account credential rotation completed safely! " -ForegroundColor Green
+    Write-Host " [OK] SUCCESS: $Account credential rotation completed safely! " -ForegroundColor Green
     Write-Host "==========================================================" -ForegroundColor Green
 
 } catch {
@@ -227,4 +228,5 @@ try {
 
     exit 1
 }
+
 

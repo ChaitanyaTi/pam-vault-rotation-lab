@@ -101,3 +101,4 @@ Write-Host " [Phase 2] RBAC Verification Complete. Capture Screenshots!" -Foregr
 Write-Host " Check /var/log/vault_audit.log on VAULT01 for HMAC-hashed audit events." -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
 
+

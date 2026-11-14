@@ -87,3 +87,4 @@ Write-Host " Open Web UI in browser: http://127.0.0.1:8200/ui         " -Foregro
 Write-Host " Token: root                                              " -ForegroundColor Green
 Write-Host "==========================================================" -ForegroundColor Green
 
+

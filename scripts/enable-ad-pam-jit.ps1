@@ -49,7 +49,7 @@ if ($EnableForestFeature) {
         Enable-ADOptionalFeature 'Privileged Access Management Feature' `
                                  -Scope ForestOrConfigurationSet `
                                  -Target (Get-ADDomain).Forest
-        Write-Host "[✓] PAM Optional Feature enabled successfully!" -ForegroundColor Green
+        Write-Host "[OKOKOK] PAM Optional Feature enabled successfully!" -ForegroundColor Green
     }
 }
 
@@ -61,7 +61,7 @@ Write-Host "Current Members: $($currentMembers -join ', ')" -ForegroundColor Gra
 if ($currentMembers -contains $Member) {
     Write-Host "[!] User '$Member' is already a member of '$TargetGroup'." -ForegroundColor Yellow
 } else {
-    Write-Host "[✓] Verified '$Member' is currently NOT a member of privileged group." -ForegroundColor Green
+    Write-Host "[OKOKOK] Verified '$Member' is currently NOT a member of privileged group." -ForegroundColor Green
 }
 
 # 3. Grant Time-Limited Membership (MemberTimeToLive)
@@ -81,6 +81,7 @@ Write-Host "    Raw AD TTL Attribute: $ttlEntry" -ForegroundColor Cyan
 
 # 5. Output Summary Table for Phase 6 Evidence
 Write-Host "`n==========================================================" -ForegroundColor Cyan
-Write-Host " [✓] JIT Access Grant Activated. Take Screenshot for Phase 6 Evidence!" -ForegroundColor Cyan
+Write-Host " [OKOKOK] JIT Access Grant Activated. Take Screenshot for Phase 6 Evidence!" -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
+
 
